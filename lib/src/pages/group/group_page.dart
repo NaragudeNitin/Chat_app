@@ -18,20 +18,26 @@ class _GroupPageState extends State<GroupPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
+     super.initState();
     connect();
   }
   void connect(){
-    socket = IO.io("http://localhost:3000", <String, dynamic>{
+    /* socket = IO.io("http://localhost:3000", 
+    <String, dynamic>{
       "transports" : ["websocket"],
       "autoConnect": false,
-    });
-    socket!.connect();
+    }); */
+    IO.Socket socket = IO.io("",
+    IO.OptionBuilder()
+      .setTransports(['websocket'])
+      .disableAutoConnect()
+      .build()
+    );
+    socket.connect();
     log("We are here to connect");
-    socket!.onConnect((_){
+    socket.onConnect((_){
       log("Connected to frontend.....");
-      socket!.emit('sendMsg', 'testing emit event');
+      socket.emit('sendMsg', 'testing emit event');
     });
   }
 
